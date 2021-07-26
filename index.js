@@ -14,7 +14,8 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/search", async (req, res) => {
-    var query = req.query.q;
+	if (req.query.password == "aVLhgkpS8X4Gb9Cp") {
+		var query = req.query.q;
 
     var response = await axios.get(`https://html.duckduckgo.com/html?q=${query}`)
         .then(function (response) {
@@ -75,6 +76,7 @@ app.get("/search", async (req, res) => {
     } else {
         res.send({ success: false, code: "AXIOS_ERROR" });
     }
+	}
 });
 
 function parseFormData(form) {
