@@ -1,7 +1,9 @@
+"use strict";
+
 const express = require("express");
 const parser = require("node-html-parser");
 const axios = require("axios");
-var decode = require('urldecode')
+const decode = require('urldecode')
 
 const app = express();
 
@@ -15,11 +17,11 @@ app.get("/", async (req, res) => {
 
 app.get("/search", async (req, res) => {
     if (req.query.password == "aVLhgkpS8X4Gb9Cp" && req.query.q) {
-        var query = req.query.q;
+        const query = req.query.q;
 
         //&setmkt=en-us
 
-        var response = await axios.get(`https://bing.com/search?q=${query}`)
+        let response = await axios.get(`https://bing.com/search?q=${query}`)
             .then(function (response) {
                 return response.data;
             })
@@ -29,9 +31,9 @@ app.get("/search", async (req, res) => {
             })
 
         if (response) {
-            var document = parser.parse(response);
+            let document = parser.parse(response);
 
-            var link2 = (document.querySelectorAll(`.b_pag a`) !== 0) ? document.querySelectorAll(`.b_pag a`) : false;
+            let link2 = (document.querySelectorAll(`.b_pag a`) !== 0) ? document.querySelectorAll(`.b_pag a`) : false;
 
             if (link2) {
                 link2.forEach((element) => {
@@ -40,7 +42,7 @@ app.get("/search", async (req, res) => {
                     }
                 })
 
-                var response2 = await axios.get(`https://www.bing.com${link2}`)
+                let response2 = await axios.get(`https://www.bing.com${link2}`)
                 .then(function (response) {
                     return response.data;
                 })
@@ -52,15 +54,15 @@ app.get("/search", async (req, res) => {
                 console.log(`https://www.bing.com${link2}`)
             }
 
-            var results = document.querySelectorAll("#b_results > .b_algo");
+            let results = document.querySelectorAll("#b_results > .b_algo");
 
-            var resultsArray = [];
+            let resultsArray = [];
 
-            for (var i in results) {
-                var result = results[i];
+            for (let i in results) {
+                let result = results[i];
                 result = parser.parse(`<div class="qdex-result">${result.innerHTML}</div>`);
 
-                var obj = {};
+                let obj = {};
                 obj.title = (result.querySelector("h2 > a")) ? result.querySelector("h2 > a").innerHTML.split("<strong>").join("").split("</strong>").join("") : "";
                 obj.url = (result.querySelector("h2 > a")) ? result.querySelector("h2 > a").rawAttributes.href : "";
                 obj.description = (result.querySelector(".b_caption > p")) ? result.querySelector("h2 > a").innerHTML.split("<strong>").join("").split("</strong>").join("") : "";
@@ -69,17 +71,17 @@ app.get("/search", async (req, res) => {
             }
 
             if (response2) {
-                var document2 = parser.parse(response2);
+                let document2 = parser.parse(response2);
 
-                var results2 = document2.querySelectorAll("#b_results > .b_algo");
+                let results2 = document2.querySelectorAll("#b_results > .b_algo");
 
-                var resultsArray2 = [];
+                let resultsArray2 = [];
 
-                for (var i in results2) {
-                    var result = results2[i];
+                for (let i in results2) {
+                    let result = results2[i];
                     result = parser.parse(`<div class="qdex-result">${result.innerHTML}</div>`);
 
-                    var obj = {};
+                    let obj = {};
                     obj.title = (result.querySelector("h2 > a")) ? result.querySelector("h2 > a").innerHTML.split("<strong>").join("").split("</strong>").join("") : "";
                     obj.url = (result.querySelector("h2 > a")) ? result.querySelector("h2 > a").rawAttributes.href : "";
                     obj.description = (result.querySelector(".b_caption > p")) ? result.querySelector("h2 > a").innerHTML.split("<strong>").join("").split("</strong>").join("") : "";
