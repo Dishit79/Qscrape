@@ -42,7 +42,7 @@ app.get("/search", async (req, res) => {
                     }
                 })
 
-                let response2 = await axios.get(`https://www.bing.com${link2}`)
+                var response2 = await axios.get(`https://www.bing.com${link2}`)
                 .then(function (response) {
                     return response.data;
                 })
@@ -56,7 +56,7 @@ app.get("/search", async (req, res) => {
 
             let results = document.querySelectorAll("#b_results > .b_algo");
 
-            let resultsArray = [];
+            var resultsArray = [];
 
             for (let i in results) {
                 let result = results[i];
@@ -75,7 +75,7 @@ app.get("/search", async (req, res) => {
 
                 let results2 = document2.querySelectorAll("#b_results > .b_algo");
 
-                let resultsArray2 = [];
+                var resultsArray2 = [];
 
                 for (let i in results2) {
                     let result = results2[i];
