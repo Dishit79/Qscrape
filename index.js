@@ -34,26 +34,26 @@ app.get("/search", async (req, res) => {
         if (response) {
             let document = parser.parse(response);
 
-            if (page == 1){
-              var response2 = response
+            if (page == 1) {
+                var response2 = response
             } else {
-              let link2 = (document.querySelectorAll(`.b_pag a`) !== 0) ? document.querySelectorAll(`.b_pag a`) : false;
-              if (link2) {
-                link2.forEach((element) => {
-                  if (element.innerHTML == page) {
-                    link2 = element.rawAttributes.href;
-                  }
-                })
+                let link2 = (document.querySelectorAll(`.b_pag a`) !== 0) ? document.querySelectorAll(`.b_pag a`) : false;
+                if (link2) {
+                    link2.forEach((element) => {
+                        if (element.innerHTML == page) {
+                            link2 = element.rawAttributes.href;
+                        }
+                    })
 
-                let linknum = link2.slice(-23).replace(/[^0-9]/g, "") // gets the link number for second page
-                var response2 = await axios.get(`https://www.bing.com${link2}&first=${linknum}&FORM=PERE`)
-                  .then(function (response) {
-                    return response.data;
-                  })
-                  .catch(function (error) {
-                    console.log(error);
-                    return false;
-                  })
+                    let linknum = link2.slice(-23).replace(/[^0-9]/g, "") // gets the link number for second page
+                    var response2 = await axios.get(`https://www.bing.com${link2}&first=${linknum}&FORM=PERE`)
+                        .then(function (response) {
+                            return response.data;
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            return false;
+                        })
                 }
             }
 
