@@ -44,15 +44,13 @@ app.get("/search", async (req, res) => {
 
                 let linknum = link2.slice(-23).replace(/[^0-9]/g, "") // gets the link number for second page 
                 var response2 = await axios.get(`https://www.bing.com${link2}&first=${linknum}&FORM=PERE`)
-                .then(function (response) {
-                    return response.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    return false;
-                })
-                              console.log(`https://www.bing.com${link2}`)
-
+                    .then(function (response) {
+                        return response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        return false;
+                    })
             }
 
             let results = document.querySelectorAll("#b_results > .b_algo");
